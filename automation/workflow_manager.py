@@ -4,12 +4,19 @@ import argparse
 import sys
 import time
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class WorkflowManager:
     def __init__(self):
-        self.api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxOTQxMzIxNi1lMmIxLTRjY2QtYmJlMy0wOTQ4NjE4MzU3MzIiLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzY4OTc2MjI2LCJleHAiOjE3NzE1MjA0MDB9.vM0ITNThYGxUZQsM1B1m5zZoGtV-gVe83gPTg-u9D3g"
-        self.base_url = "https://n8n.faisal-automation.me/api/v1"
-        self.webhook_url = "https://n8n.faisal-automation.me/webhook/research"
+        self.api_key = os.getenv("N8N_API_KEY")
+        if not self.api_key:
+            print("WARNING: N8N_API_KEY not found in environment variables.")
+        
+        self.base_url = os.getenv("N8N_BASE_URL", "https://n8n.faisal-automation.me/api/v1")
+        self.webhook_url = os.getenv("N8N_WEBHOOK_URL", "https://n8n.faisal-automation.me/webhook/research")
+        
         self.headers = {
             "X-N8N-API-KEY": self.api_key,
             "Content-Type": "application/json"
